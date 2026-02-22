@@ -1,24 +1,21 @@
 /* ==========================================================
-   AASR District Calendar — White House Palette
+   AASR District Calendar — White House Palette (Light Mode)
 
-   Palette (whitehouse.gov):
-   --navy:        #0d132d    Deep navy
+   Palette:
+   --navy:        #0d132d    Deep navy (header, footer, accents)
    --navy-mid:    #151a30    Mid navy
-   --charcoal:    #1e2235    Card surfaces
    --red:         #b50000    Accent red
-   --pale:        #d9dee8    Pale gray (borders, buttons)
+   --pale:        #d9dee8    Pale gray (borders)
    --stone:       #e8e6e0    Stone
-   --light:       #f3f3f3    Light gray
-   --white:       #ffffff    White
+   --light:       #f3f3f3    Light gray (surfaces)
+   --white:       #ffffff    Background
    --text:        #293340    Body text
    --muted:       #6b7280    Muted text
-   --border:      #2a2d45    Dark borders
    ========================================================== */
 
 :root {
   --navy: #0d132d;
   --navy-mid: #151a30;
-  --charcoal: #1e2235;
   --red: #b50000;
   --pale: #d9dee8;
   --stone: #e8e6e0;
@@ -26,7 +23,6 @@
   --white: #ffffff;
   --text: #293340;
   --muted: #6b7280;
-  --border: #2a2d45;
 }
 
 /* ---- Reset & Base ---- */
@@ -43,8 +39,8 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Instrument Sans', Arial, 'Helvetica Neue', Helvetica, system-ui, sans-serif;
-  color: var(--white);
-  background: var(--navy);
+  color: var(--text);
+  background: var(--white);
   line-height: 1.6;
 }
 
@@ -53,7 +49,7 @@ body {
   background: var(--navy);
   text-align: center;
   padding: 2.5rem 1.5rem 2rem;
-  border-bottom: 2px solid var(--pale);
+  border-bottom: 3px solid var(--red);
 }
 
 .header-inner {
@@ -112,12 +108,11 @@ body {
 
 /* ---- Site Footer ---- */
 .site-footer {
+  background: var(--navy);
   text-align: center;
   padding: 1.5rem 1.5rem 2.5rem;
-  color: var(--muted);
+  color: var(--pale);
   font-size: 0.85rem;
-  max-width: 960px;
-  margin: 0 auto;
   line-height: 1.7;
 }
 
@@ -134,13 +129,13 @@ body {
    ========================================================== */
 
 .fc {
-  --fc-border-color: var(--border);
-  --fc-page-bg-color: var(--navy);
-  --fc-neutral-bg-color: var(--charcoal);
-  --fc-list-event-hover-bg-color: rgba(217, 222, 232, 0.06);
-  --fc-today-bg-color: rgba(217, 222, 232, 0.04);
-  --fc-event-bg-color: var(--red);
-  --fc-event-border-color: var(--red);
+  --fc-border-color: var(--pale);
+  --fc-page-bg-color: var(--white);
+  --fc-neutral-bg-color: var(--light);
+  --fc-list-event-hover-bg-color: var(--light);
+  --fc-today-bg-color: rgba(181, 0, 0, 0.04);
+  --fc-event-bg-color: var(--navy);
+  --fc-event-border-color: var(--navy);
   --fc-event-text-color: var(--white);
 }
 
@@ -155,10 +150,10 @@ body {
   font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif !important;
   font-size: 1.5rem !important;
   font-weight: 400;
-  color: var(--white) !important;
+  color: var(--navy) !important;
 }
 
-/* Buttons — sharp, WH style */
+/* Buttons */
 .fc .fc-button {
   font-family: 'Instrument Sans', Arial, sans-serif !important;
   font-size: 0.8rem !important;
@@ -175,23 +170,23 @@ body {
 .fc .fc-button-primary {
   background-color: transparent !important;
   border: 2px solid var(--pale) !important;
-  color: var(--pale) !important;
+  color: var(--text) !important;
 }
 
 .fc .fc-button-primary:hover,
 .fc .fc-button-primary:focus {
   background-color: var(--light) !important;
-  border-color: var(--pale) !important;
-  color: var(--text) !important;
+  border-color: var(--text) !important;
+  color: var(--navy) !important;
   outline: none;
   box-shadow: none;
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active,
 .fc .fc-button-primary:not(:disabled):active {
-  background-color: var(--white) !important;
-  border-color: var(--pale) !important;
-  color: var(--navy) !important;
+  background-color: var(--navy) !important;
+  border-color: var(--navy) !important;
+  color: var(--white) !important;
 }
 
 /* Prev/Next arrow buttons */
@@ -202,19 +197,19 @@ body {
 
 /* List view */
 .fc .fc-list {
-  border: 2px solid var(--border) !important;
+  border: 2px solid var(--pale) !important;
   border-radius: 0;
 }
 
 .fc .fc-list-event-title a {
   font-size: 1.05rem;
-  color: var(--white) !important;
+  color: var(--navy) !important;
   text-decoration: none;
 }
 
 .fc .fc-list-event-title a:hover,
 .fc .fc-list-event-title a:focus {
-  color: var(--pale) !important;
+  color: var(--red) !important;
   text-decoration: underline;
 }
 
@@ -225,7 +220,7 @@ body {
 
 .fc .fc-list-event td {
   padding: 0.85rem 1rem;
-  border-color: var(--border) !important;
+  border-color: var(--pale) !important;
 }
 
 .fc .fc-list-day-cushion {
@@ -235,7 +230,7 @@ body {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 0.75rem 1rem;
-  background: var(--charcoal) !important;
+  background: var(--navy) !important;
   color: var(--white) !important;
 }
 
@@ -244,7 +239,7 @@ body {
 }
 
 .fc .fc-list-event:hover td {
-  background-color: rgba(217, 222, 232, 0.05) !important;
+  background-color: var(--light) !important;
 }
 
 .fc .fc-list-event-dot {
@@ -255,16 +250,16 @@ body {
 .fc .fc-daygrid-day-number {
   font-size: 0.95rem;
   padding: 0.4rem 0.5rem;
-  color: var(--pale);
+  color: var(--text);
 }
 
 .fc .fc-daygrid-day-number.fc-nav-link:hover {
-  color: var(--white);
+  color: var(--red);
   text-decoration: underline;
 }
 
 .fc .fc-col-header-cell-cushion {
-  color: var(--white) !important;
+  color: var(--navy) !important;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -277,8 +272,8 @@ body {
   font-size: 0.85rem;
   border-radius: 0;
   cursor: pointer;
-  background: var(--red) !important;
-  border-left: 3px solid var(--white) !important;
+  background: var(--navy) !important;
+  border-left: 3px solid var(--red) !important;
   border-top: none !important;
   border-right: none !important;
   border-bottom: none !important;
@@ -286,13 +281,13 @@ body {
 }
 
 .fc .fc-daygrid-event:hover {
-  background: var(--pale) !important;
-  color: var(--navy) !important;
-  border-left-color: var(--red) !important;
+  background: var(--red) !important;
+  color: var(--white) !important;
+  border-left-color: var(--navy) !important;
 }
 
 .fc .fc-day-today {
-  background-color: rgba(181, 0, 0, 0.06) !important;
+  background-color: rgba(181, 0, 0, 0.04) !important;
 }
 
 .fc .fc-day-other .fc-daygrid-day-number {
@@ -315,7 +310,7 @@ body {
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(13, 19, 45, 0.88);
+  background: rgba(13, 19, 45, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -329,8 +324,8 @@ body {
 }
 
 .modal-content {
-  background: var(--navy-mid);
-  border: 2px solid var(--border);
+  background: var(--white);
+  border: 2px solid var(--pale);
   border-top: 3px solid var(--red);
   border-radius: 0;
   padding: 2.25rem 2rem;
@@ -339,7 +334,7 @@ body {
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
 }
 
 .modal-close-btn {
@@ -363,7 +358,7 @@ body {
 
 .modal-close-btn:hover,
 .modal-close-btn:focus {
-  color: var(--white);
+  color: var(--navy);
   outline: none;
 }
 
@@ -371,7 +366,7 @@ body {
   font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   font-size: 1.5rem;
   margin: 0 0 1.5rem;
-  color: var(--white);
+  color: var(--navy);
   padding-right: 2.5rem;
   line-height: 1.25;
   font-weight: 400;
@@ -381,13 +376,13 @@ body {
   margin-bottom: 1.1rem;
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--pale);
+  color: var(--text);
 }
 
 .modal-field strong {
   display: block;
   margin-bottom: 0.2rem;
-  color: var(--white);
+  color: var(--muted);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -400,7 +395,7 @@ body {
 }
 
 #modal-description a {
-  color: var(--pale);
+  color: var(--red);
   text-decoration: underline;
 }
 
@@ -414,9 +409,9 @@ body {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  background: transparent;
-  color: var(--pale);
-  border: 2px solid var(--pale);
+  background: var(--navy);
+  color: var(--white);
+  border: 2px solid var(--navy);
   border-radius: 0;
   cursor: pointer;
   min-height: 48px;
@@ -425,9 +420,9 @@ body {
 
 .modal-close-btn-bottom:hover,
 .modal-close-btn-bottom:focus {
-  background: var(--light);
-  color: var(--navy);
-  border-color: var(--pale);
+  background: var(--red);
+  border-color: var(--red);
+  color: var(--white);
   outline: none;
 }
 
@@ -537,7 +532,8 @@ body {
   }
 
   .site-footer {
-    display: none;
+    background: none;
+    color: #333;
   }
 
   .fc .fc-toolbar {
