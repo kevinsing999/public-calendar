@@ -11,13 +11,15 @@ A simple, mobile-friendly website that displays the District's Google Calendar o
 - Events are pulled directly from the District's Google Calendar using the free Google Calendar API
 - The site uses [FullCalendar](https://fullcalendar.io/) (an open-source calendar library) to display events in three views: Agenda, Month, and Week
 - Clicking an event shows its details in a popup — no redirect to Google Calendar
+- Each event has a **Save to Calendar** button that downloads an `.ics` file (works with Apple Calendar, Outlook, Google Calendar, etc.)
+- The API key is stored as a GitHub repository secret and injected at deploy time via GitHub Actions — it never appears in the source code
 - Hosted for free on GitHub Pages with HTTPS
 
 ---
 
-## Setup Instructions
+## Prerequisites
 
-### Step 1: Make the Google Calendar Public
+### 1. Make the Google Calendar Public
 
 The calendar must be shared publicly with full event details visible (not just free/busy).
 
@@ -26,69 +28,61 @@ The calendar must be shared publicly with full event details visible (not just f
 3. Scroll to **Access permissions for events**
 4. Check **"Make available to public"**
 5. Change the dropdown from **"See only free/busy (hide details)"** to **"See all event details"**
-6. Click **Save** (or the settings auto-save)
+6. Settings auto-save
 
-### Step 2: Create a Google Calendar API Key
+### 2. Google Calendar API Key
 
-The website needs an API key to read events from Google Calendar. This is free — Google allows up to 1 million requests per day at no cost.
+The API key is already configured and stored as a GitHub repository secret (`GOOGLE_CALENDAR_API_KEY`). It is:
+- Restricted to the `kevinsing999.github.io` domain only
+- Restricted to the Google Calendar API only
+- Injected into the deployed site automatically by the GitHub Actions workflow
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. If you don't have a Google Cloud project, click **Select a project** at the top → **New Project**
-   - Name it something like `DCE Calendar Website`
-   - Click **Create**
-3. Make sure the new project is selected at the top of the page
-4. In the left menu, go to **APIs & Services → Library**
-5. Search for **Google Calendar API** and click on it
-6. Click the **Enable** button
-7. Go to **APIs & Services → Credentials** (in the left menu)
-8. Click **Create Credentials** at the top → select **API Key**
-9. Your API key will be displayed — **copy it**
-10. (Recommended) Secure the key:
-    - Click **Restrict Key** (or click the key name to edit it)
-    - Under **Application restrictions**, select **HTTP referrers (websites)**
-    - Add your GitHub Pages URL: `kevinsing999.github.io/*`
-    - Under **API restrictions**, select **Restrict key** → check **Google Calendar API** only
-    - Click **Save**
-
-### Step 3: Add the API Key to the Website
-
-1. Open `index.html` in a text editor
-2. Find this line (around line 80):
-   ```javascript
-   googleCalendarApiKey: 'YOUR_API_KEY_HERE',
-   ```
-3. Replace `YOUR_API_KEY_HERE` with your actual API key:
-   ```javascript
-   googleCalendarApiKey: 'AIzaSyB1234567890abcdefghijklmnop',
-   ```
-4. Save the file
-
-### Step 4: Deploy to GitHub Pages
-
-1. Commit and push your changes:
-   ```bash
-   git add -A
-   git commit -m "Add calendar website with API key"
-   git push origin main
-   ```
-2. Go to the repository on GitHub: [github.com/kevinsing999/public-calendar](https://github.com/kevinsing999/public-calendar)
-3. Click **Settings** (tab at the top)
-4. In the left sidebar, click **Pages**
-5. Under **Source**, select **Deploy from a branch**
-6. Select the **main** branch and **/ (root)** folder
-7. Click **Save**
-8. Wait 1–2 minutes, then visit: [kevinsing999.github.io/public-calendar](https://kevinsing999.github.io/public-calendar/)
+If the key ever needs to be rotated:
+1. Create a new API key in [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials
+2. Apply the same restrictions (HTTP referrers: `kevinsing999.github.io/*`, API: Google Calendar API only)
+3. Update the repository secret: Settings → Secrets and variables → Actions → `GOOGLE_CALENDAR_API_KEY`
+4. Push any commit to trigger a redeployment
 
 ---
 
-## Testing Locally
+## Deployment
 
-You can open `index.html` directly in your browser to check the layout and styling. However, the calendar events won't load locally unless you've configured the API key and the calendar is set to public.
+The site deploys automatically via GitHub Actions on every push to `main`.
 
-For full local testing:
-1. Complete Steps 1–3 above
-2. Open `index.html` in Chrome/Firefox/Edge
-3. Events should appear if the API key has no domain restrictions (or if you temporarily remove the HTTP referrer restriction)
+The workflow (`.github/workflows/deploy.yml`):
+1. Checks out the code
+2. Replaces the API key placeholder in `index.html` with the repository secret
+3. Deploys to GitHub Pages
+
+No manual deployment steps are needed — just push to `main`.
+
+---
+
+## Custom Domain (Optional)
+
+To use a custom domain instead of `kevinsing999.github.io/public-calendar`:
+
+1. Buy a domain from any registrar
+2. Add DNS records pointing to GitHub Pages:
+   - 4 `A` records for the root domain: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+   - 1 `CNAME` record for `www` pointing to `kevinsing999.github.io`
+3. Add a `CNAME` file to the repo containing your domain name
+4. Configure the domain in GitHub → Settings → Pages
+5. Update the API key restriction to include the new domain
+
+---
+
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **Agenda view** | Default. Vertical list of all events this month |
+| **Month view** | Traditional calendar grid — click any date to drill down |
+| **Week view** | Vertical list of this week's events |
+| **Event details** | Click any event to see title, date/time, location, and description in a popup |
+| **Save to Calendar** | Download an `.ics` file for any event — works with Apple Calendar, Outlook, Google Calendar |
+| **Mobile responsive** | Adapts to any screen size, large touch targets |
+| **Print friendly** | `Ctrl+P` prints a clean agenda without navigation buttons |
 
 ---
 
@@ -96,24 +90,35 @@ For full local testing:
 
 ### Changing the Calendar
 
-To point at a different Google Calendar, edit `index.html` and change the `googleCalendarId` value:
+Edit `index.html` and change the `googleCalendarId` value:
 
 ```javascript
 googleCalendarId: 'your-calendar-id@group.calendar.google.com'
 ```
 
-You can find a calendar's ID in Google Calendar → Settings → calendar name → **Integrate calendar** section.
+Find a calendar's ID in Google Calendar → Settings → calendar name → **Integrate calendar**.
 
 ### Changing Colours
 
-The main colour scheme is defined in `style.css`. Search for `#1a2a5e` (the dark blue used in the header and buttons) and replace it with your preferred colour.
+The colour palette is defined as CSS variables at the top of `style.css`:
+
+```css
+:root {
+  --navy: #0d132d;    /* Header, footer, active buttons */
+  --red: #b50000;     /* Accent — header rule, event dots, hover states */
+  --pale: #d9dee8;    /* Borders */
+  --light: #f3f3f3;   /* Light surfaces */
+  --white: #ffffff;   /* Background */
+  --text: #293340;    /* Body text */
+  --muted: #6b7280;   /* Secondary text */
+}
+```
+
+Change these values to restyle the entire site.
 
 ### Changing the Default View
 
-The default view is `listMonth` (Agenda). To change it, edit the `initialView` line in `index.html`. Options:
-- `listMonth` — Agenda list for the current month
-- `dayGridMonth` — Traditional month grid
-- `listWeek` — Agenda list for the current week
+The default view is `listMonth` (Agenda) on desktop and `listWeek` on mobile. To change it, edit the `initialView` logic in `index.html`.
 
 ---
 
@@ -121,9 +126,12 @@ The default view is `listMonth` (Agenda). To change it, edit the `initialView` l
 
 ```
 public-calendar/
-├── index.html      # Complete calendar application
-├── style.css       # Responsive, accessible styles
-└── README.md       # This file
+├── .github/
+│   └── workflows/
+│       └── deploy.yml    # GitHub Actions — injects API key and deploys
+├── index.html            # Complete calendar application
+├── style.css             # Responsive styles (White House-inspired palette)
+└── README.md             # This file
 ```
 
 ## Technology
@@ -132,5 +140,7 @@ public-calendar/
 |-----------|-----------|------|
 | Calendar display | [FullCalendar v6](https://fullcalendar.io/) (MIT license) | Free |
 | Event data | Google Calendar API | Free (1M requests/day) |
+| Typography | [Instrument Serif + Sans](https://fonts.google.com/?query=instrument) (Google Fonts) | Free |
 | Hosting | GitHub Pages | Free |
+| Deployment | GitHub Actions | Free |
 | Build tools | None — plain HTML/CSS/JS | N/A |
