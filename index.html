@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AASR District Central East, South and North — Chapter meeting dates and events calendar">
+  <title>AASR District Central East, South &amp; North — Calendar</title>
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- FullCalendar v6 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>AASR District Central East, South &amp; North</h1>
+    <p class="subtitle">Chapter Meeting Calendar</p>
+  </header>
+
+  <main class="calendar-container">
+    <div id="calendar"></div>
+  </main>
+
+  <footer class="site-footer">
+    <p>Events sourced from the District Google Calendar. If you have questions, contact your Chapter Secretary.</p>
+  </footer>
+
+  <!-- Event Detail Modal -->
+  <div id="event-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close-btn" aria-label="Close event details">&times;</button>
+      <h2 id="modal-title" class="modal-event-title"></h2>
+      <div class="modal-field" id="modal-date-row">
+        <strong>Date &amp; Time:</strong>
+        <span id="modal-date"></span>
+      </div>
+      <div class="modal-field" id="modal-location-row">
+        <strong>Location:</strong>
+        <span id="modal-location"></span>
+      </div>
+      <div class="modal-field" id="modal-description-row">
+        <strong>Details:</strong>
+        <div id="modal-description"></div>
+      </div>
+      <button id="modal-close-bottom" class="modal-close-btn-bottom">Close</button>
+    </div>
+  </div>
+
+  <!-- FullCalendar v6 JS + Google Calendar Plugin -->
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fullcalendar/google-calendar@6.1.15/index.global.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var calendarEl = document.getElementById('calendar');
+
+      // ---- Modal elements ----
+      var modal = document.getElementById('event-modal');
+      var modalTitle = document.getElementById('modal-title');
+      var modalDate = document.getElementById('modal-date');
+      var modalDateRow = document.getElementById('modal-date-row');
+      var modalLocation = document.getElementById('modal-location');
+      var modalLocationRow = document.getElementById('modal-location-row');
+      var modalDescription = document.getElementById('modal-description');
+      var modalDescriptionRow = document.getElementById('modal-description-row');
+      var modalCloseBtn = document.getElementById('modal-close');
+      var modalCloseBottom = document.getElementById('modal-close-bottom');
+
+      function closeModal() {
+        modal.hidden = true;
+        document.body.style.overflow = '';
+      }
+
+      modalCloseBtn.addEventListener('click', closeModal);
+      modalCloseBottom.addEventListener('click', closeModal);
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) closeModal();
+      });
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && !modal.hidden) closeModal();
+      });
+
+      // ---- Date formatting helpers ----
+      var dateFormatFull = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'Australia/Perth'
+      };
+      var timeFormat = {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'Australia/Perth'
+      };
+
+      function formatEventDate(event) {
+        var start = event.start;
+        var end = event.end;
+
+        if (event.allDay) {
+          var formatted = start.toLocaleDateString('en-AU', dateFormatFull);
+          if (end) {
+            var endAdjusted = new Date(end);
+            endAdjusted.setDate(endAdjusted.getDate() - 1);
+            if (endAdjusted.toDateString() !== start.toDateString()) {
+              formatted += ' — ' + endAdjusted.toLocaleDateString('en-AU', dateFormatFull);
+            }
+          }
+          return formatted + ' (All day)';
+        }
+
+        var datePart = start.toLocaleDateString('en-AU', dateFormatFull);
+        var startTime = start.toLocaleTimeString('en-AU', timeFormat);
+        var result = datePart + ', ' + startTime;
+        if (end) {
+          result += ' — ' + end.toLocaleTimeString('en-AU', timeFormat);
+        }
+        return result;
+      }
+
+      // ---- Determine initial view based on screen width ----
+      var initialView = window.innerWidth < 768 ? 'listWeek' : 'listMonth';
+
+      // ---- Initialise FullCalendar ----
+      var calendar = new FullCalendar.Calendar(calendarEl, {
+        // =====================================================
+        //  CONFIGURATION: Replace with your Google API key
+        // =====================================================
+        googleCalendarApiKey: 'GOOGLE_CALENDAR_API_KEY_PLACEHOLDER',
+
+        eventSources: [{
+          googleCalendarId: 'b7817721fd3dec63d12f17bc0f7a419f58b5fca589e6bd25bc7af95ac29706a2@group.calendar.google.com'
+        }],
+
+        initialView: initialView,
+        timeZone: 'Australia/Perth',
+        height: 'auto',
+        navLinks: true,
+        nowIndicator: true,
+
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'listMonth,dayGridMonth,listWeek'
+        },
+
+        buttonText: {
+          today: 'Today',
+          listMonth: 'Agenda',
+          month: 'Month',
+          listWeek: 'Week'
+        },
+
+        views: {
+          listMonth: {
+            noEventsContent: 'No upcoming meetings this period'
+          },
+          listWeek: {
+            noEventsContent: 'No upcoming meetings this period'
+          },
+          dayGridMonth: {
+            noEventsContent: 'No upcoming meetings this period'
+          }
+        },
+
+        // ---- Event click → show modal instead of Google redirect ----
+        eventClick: function (info) {
+          info.jsEvent.preventDefault();
+
+          var event = info.event;
+
+          modalTitle.textContent = event.title || 'Meeting';
+
+          var dateStr = formatEventDate(event);
+          modalDate.textContent = dateStr;
+          modalDateRow.style.display = '';
+
+          var location = event.extendedProps.location;
+          if (location) {
+            modalLocation.textContent = location;
+            modalLocationRow.style.display = '';
+          } else {
+            modalLocationRow.style.display = 'none';
+          }
+
+          var description = event.extendedProps.description;
+          if (description) {
+            modalDescription.innerHTML = description;
+            modalDescriptionRow.style.display = '';
+          } else {
+            modalDescriptionRow.style.display = 'none';
+          }
+
+          modal.hidden = false;
+          document.body.style.overflow = 'hidden';
+          modalCloseBtn.focus();
+        }
+      });
+
+      calendar.render();
+    });
+  </script>
+
+</body>
+</html>
