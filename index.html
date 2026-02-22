@@ -54,6 +54,7 @@
         <strong>Details</strong>
         <div id="modal-description"></div>
       </div>
+      <button id="modal-add-cal" class="modal-add-cal-btn">Save to Calendar</button>
       <button id="modal-close-bottom" class="modal-close-btn-bottom">Close</button>
     </div>
   </div>
@@ -78,10 +79,84 @@
       var modalCloseBtn = document.getElementById('modal-close');
       var modalCloseBottom = document.getElementById('modal-close-bottom');
 
+      var modalAddCal = document.getElementById('modal-add-cal');
+      var currentEvent = null;
+
       function closeModal() {
         modal.hidden = true;
         document.body.style.overflow = '';
       }
+
+      // ---- ICS file generation ----
+      function pad(n) { return n < 10 ? '0' + n : '' + n; }
+
+      function toICSDate(date) {
+        return date.getUTCFullYear() +
+          pad(date.getUTCMonth() + 1) +
+          pad(date.getUTCDate()) + 'T' +
+          pad(date.getUTCHours()) +
+          pad(date.getUTCMinutes()) +
+          pad(date.getUTCSeconds()) + 'Z';
+      }
+
+      function toICSDateAllDay(date) {
+        return date.getFullYear() +
+          pad(date.getMonth() + 1) +
+          pad(date.getDate());
+      }
+
+      function escapeICS(str) {
+        return (str || '').replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+      }
+
+      function downloadICS(event) {
+        var lines = [
+          'BEGIN:VCALENDAR',
+          'VERSION:2.0',
+          'PRODID:-//AASR District//Calendar//EN',
+          'BEGIN:VEVENT'
+        ];
+
+        if (event.allDay) {
+          lines.push('DTSTART;VALUE=DATE:' + toICSDateAllDay(event.start));
+          if (event.end) {
+            lines.push('DTEND;VALUE=DATE:' + toICSDateAllDay(event.end));
+          }
+        } else {
+          lines.push('DTSTART:' + toICSDate(event.start));
+          if (event.end) {
+            lines.push('DTEND:' + toICSDate(event.end));
+          }
+        }
+
+        lines.push('SUMMARY:' + escapeICS(event.title));
+
+        if (event.extendedProps.location) {
+          lines.push('LOCATION:' + escapeICS(event.extendedProps.location));
+        }
+
+        if (event.extendedProps.description) {
+          var desc = event.extendedProps.description.replace(/<[^>]*>/g, '');
+          lines.push('DESCRIPTION:' + escapeICS(desc));
+        }
+
+        lines.push('END:VEVENT');
+        lines.push('END:VCALENDAR');
+
+        var blob = new Blob([lines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = (event.title || 'event').replace(/[^a-zA-Z0-9 ]/g, '').replace(/\s+/g, '-') + '.ics';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }
+
+      modalAddCal.addEventListener('click', function () {
+        if (currentEvent) downloadICS(currentEvent);
+      });
 
       modalCloseBtn.addEventListener('click', closeModal);
       modalCloseBottom.addEventListener('click', closeModal);
@@ -182,6 +257,7 @@
           info.jsEvent.preventDefault();
 
           var event = info.event;
+          currentEvent = event;
 
           modalTitle.textContent = event.title || 'Meeting';
 
