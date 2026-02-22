@@ -1,36 +1,31 @@
 /* ==========================================================
-   AASR District Calendar
-   Scottish Rite palette + White House authority styling
+   AASR District Calendar — White House Palette
 
-   Palette:
-   --navy:        #0d132d    Deep navy (WH-inspired)
+   Palette (whitehouse.gov):
+   --navy:        #0d132d    Deep navy
    --navy-mid:    #151a30    Mid navy
-   --charcoal:    #1e2340    Card surfaces
-   --purple:      #4a1942    Royal purple accent
-   --gold:        #c9a84c    Sovereign gold
-   --gold-bright: #d4af37    Bright gold (hover)
-   --gold-dark:   #9a7b2e    Muted gold (borders)
-   --crimson:     #8b1a1a    Zeal red
-   --parchment:   #f5f0e8    Warm white
-   --stone:       #e8e6e0    Light stone
-   --text:        #293340    Body text on light
-   --gray:        #8a8a9a    Muted text
-   --border:      #2a2d45    Subtle borders
+   --charcoal:    #1e2235    Card surfaces
+   --red:         #b50000    Accent red
+   --pale:        #d9dee8    Pale gray (borders, buttons)
+   --stone:       #e8e6e0    Stone
+   --light:       #f3f3f3    Light gray
+   --white:       #ffffff    White
+   --text:        #293340    Body text
+   --muted:       #6b7280    Muted text
+   --border:      #2a2d45    Dark borders
    ========================================================== */
 
 :root {
   --navy: #0d132d;
   --navy-mid: #151a30;
-  --charcoal: #1e2340;
-  --purple: #4a1942;
-  --gold: #c9a84c;
-  --gold-bright: #d4af37;
-  --gold-dark: #9a7b2e;
-  --crimson: #8b1a1a;
-  --parchment: #f5f0e8;
+  --charcoal: #1e2235;
+  --red: #b50000;
+  --pale: #d9dee8;
   --stone: #e8e6e0;
+  --light: #f3f3f3;
+  --white: #ffffff;
   --text: #293340;
-  --gray: #8a8a9a;
+  --muted: #6b7280;
   --border: #2a2d45;
 }
 
@@ -47,8 +42,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: Arial, 'Helvetica Neue', Helvetica, system-ui, sans-serif;
-  color: var(--parchment);
+  font-family: 'Instrument Sans', Arial, 'Helvetica Neue', Helvetica, system-ui, sans-serif;
+  color: var(--white);
   background: var(--navy);
   line-height: 1.6;
 }
@@ -58,7 +53,7 @@ body {
   background: var(--navy);
   text-align: center;
   padding: 2.5rem 1.5rem 2rem;
-  border-bottom: 2px solid var(--gold-dark);
+  border-bottom: 2px solid var(--pale);
 }
 
 .header-inner {
@@ -68,7 +63,7 @@ body {
 
 .header-emblem {
   font-size: 2rem;
-  color: var(--gold);
+  color: var(--pale);
   margin-bottom: 0.75rem;
   line-height: 1;
   letter-spacing: 0.3em;
@@ -76,18 +71,18 @@ body {
 
 .site-header h1 {
   margin: 0;
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
-  font-size: 2.2rem;
-  font-weight: 700;
+  font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+  font-size: 2.4rem;
+  font-weight: 400;
   line-height: 1.15;
-  color: #fff;
-  letter-spacing: 0.02em;
+  color: var(--white);
+  letter-spacing: 0.01em;
 }
 
 .site-header .subtitle {
   margin: 0.4rem 0 0;
   font-size: 1rem;
-  color: var(--stone);
+  color: var(--pale);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -95,14 +90,14 @@ body {
 .header-rule {
   width: 60px;
   height: 2px;
-  background: var(--gold);
+  background: var(--red);
   margin: 1.25rem auto;
 }
 
 .site-header .subtitle-secondary {
   margin: 0;
   font-size: 0.85rem;
-  color: var(--gold);
+  color: var(--pale);
   letter-spacing: 0.15em;
   text-transform: uppercase;
   font-weight: 700;
@@ -119,7 +114,7 @@ body {
 .site-footer {
   text-align: center;
   padding: 1.5rem 1.5rem 2.5rem;
-  color: var(--gray);
+  color: var(--muted);
   font-size: 0.85rem;
   max-width: 960px;
   margin: 0 auto;
@@ -129,9 +124,9 @@ body {
 .footer-rule {
   width: 60px;
   height: 2px;
-  background: var(--gold-dark);
+  background: var(--pale);
   margin: 0 auto 1.5rem;
-  opacity: 0.4;
+  opacity: 0.3;
 }
 
 /* ==========================================================
@@ -142,11 +137,11 @@ body {
   --fc-border-color: var(--border);
   --fc-page-bg-color: var(--navy);
   --fc-neutral-bg-color: var(--charcoal);
-  --fc-list-event-hover-bg-color: rgba(201, 168, 76, 0.06);
-  --fc-today-bg-color: rgba(201, 168, 76, 0.04);
-  --fc-event-bg-color: var(--purple);
-  --fc-event-border-color: var(--gold-dark);
-  --fc-event-text-color: var(--parchment);
+  --fc-list-event-hover-bg-color: rgba(217, 222, 232, 0.06);
+  --fc-today-bg-color: rgba(217, 222, 232, 0.04);
+  --fc-event-bg-color: var(--red);
+  --fc-event-border-color: var(--red);
+  --fc-event-text-color: var(--white);
 }
 
 /* Toolbar */
@@ -157,15 +152,15 @@ body {
 }
 
 .fc .fc-toolbar-title {
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+  font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif !important;
   font-size: 1.5rem !important;
-  font-weight: 700;
-  color: #fff !important;
-  letter-spacing: 0.01em;
+  font-weight: 400;
+  color: var(--white) !important;
 }
 
-/* Buttons — sharp, formal, WH-inspired */
+/* Buttons — sharp, WH style */
 .fc .fc-button {
+  font-family: 'Instrument Sans', Arial, sans-serif !important;
   font-size: 0.8rem !important;
   padding: 0.55rem 1.1rem !important;
   min-height: 44px;
@@ -179,23 +174,23 @@ body {
 
 .fc .fc-button-primary {
   background-color: transparent !important;
-  border: 2px solid var(--border) !important;
-  color: var(--parchment) !important;
+  border: 2px solid var(--pale) !important;
+  color: var(--pale) !important;
 }
 
 .fc .fc-button-primary:hover,
 .fc .fc-button-primary:focus {
-  background-color: var(--charcoal) !important;
-  border-color: var(--gold-dark) !important;
-  color: var(--gold) !important;
+  background-color: var(--light) !important;
+  border-color: var(--pale) !important;
+  color: var(--text) !important;
   outline: none;
   box-shadow: none;
 }
 
 .fc .fc-button-primary:not(:disabled).fc-button-active,
 .fc .fc-button-primary:not(:disabled):active {
-  background-color: var(--gold-dark) !important;
-  border-color: var(--gold-dark) !important;
+  background-color: var(--white) !important;
+  border-color: var(--pale) !important;
   color: var(--navy) !important;
 }
 
@@ -213,17 +208,18 @@ body {
 
 .fc .fc-list-event-title a {
   font-size: 1.05rem;
-  color: var(--parchment) !important;
+  color: var(--white) !important;
   text-decoration: none;
 }
 
 .fc .fc-list-event-title a:hover,
 .fc .fc-list-event-title a:focus {
-  color: var(--gold) !important;
+  color: var(--pale) !important;
+  text-decoration: underline;
 }
 
 .fc .fc-list-event-time {
-  color: var(--gray) !important;
+  color: var(--muted) !important;
   font-size: 0.95rem;
 }
 
@@ -233,13 +229,14 @@ body {
 }
 
 .fc .fc-list-day-cushion {
+  font-family: 'Instrument Sans', Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 0.75rem 1rem;
   background: var(--charcoal) !important;
-  color: var(--gold) !important;
+  color: var(--white) !important;
 }
 
 .fc .fc-list-event {
@@ -247,27 +244,27 @@ body {
 }
 
 .fc .fc-list-event:hover td {
-  background-color: rgba(201, 168, 76, 0.05) !important;
+  background-color: rgba(217, 222, 232, 0.05) !important;
 }
 
 .fc .fc-list-event-dot {
-  border-color: var(--gold) !important;
+  border-color: var(--red) !important;
 }
 
 /* Day grid */
 .fc .fc-daygrid-day-number {
   font-size: 0.95rem;
   padding: 0.4rem 0.5rem;
-  color: var(--parchment);
+  color: var(--pale);
 }
 
 .fc .fc-daygrid-day-number.fc-nav-link:hover {
-  color: var(--gold);
+  color: var(--white);
   text-decoration: underline;
 }
 
 .fc .fc-col-header-cell-cushion {
-  color: var(--gold) !important;
+  color: var(--white) !important;
   font-weight: 700;
   text-transform: uppercase;
   font-size: 0.8rem;
@@ -280,32 +277,33 @@ body {
   font-size: 0.85rem;
   border-radius: 0;
   cursor: pointer;
-  background: var(--purple) !important;
-  border-left: 3px solid var(--gold) !important;
+  background: var(--red) !important;
+  border-left: 3px solid var(--white) !important;
   border-top: none !important;
   border-right: none !important;
   border-bottom: none !important;
-  color: var(--parchment) !important;
+  color: var(--white) !important;
 }
 
 .fc .fc-daygrid-event:hover {
-  background: var(--gold-dark) !important;
+  background: var(--pale) !important;
   color: var(--navy) !important;
+  border-left-color: var(--red) !important;
 }
 
 .fc .fc-day-today {
-  background-color: rgba(201, 168, 76, 0.04) !important;
+  background-color: rgba(181, 0, 0, 0.06) !important;
 }
 
 .fc .fc-day-other .fc-daygrid-day-number {
-  color: var(--gray);
+  color: var(--muted);
   opacity: 0.4;
 }
 
 /* No-events message */
 .fc .fc-list-empty-cushion {
   font-size: 1rem;
-  color: var(--gray);
+  color: var(--muted);
   padding: 2.5rem;
   text-align: center;
 }
@@ -333,7 +331,7 @@ body {
 .modal-content {
   background: var(--navy-mid);
   border: 2px solid var(--border);
-  border-top: 3px solid var(--gold);
+  border-top: 3px solid var(--red);
   border-radius: 0;
   padding: 2.25rem 2rem;
   max-width: 540px;
@@ -352,7 +350,7 @@ body {
   border: none;
   font-size: 1.75rem;
   line-height: 1;
-  color: var(--gray);
+  color: var(--muted);
   cursor: pointer;
   min-width: 44px;
   min-height: 44px;
@@ -365,30 +363,31 @@ body {
 
 .modal-close-btn:hover,
 .modal-close-btn:focus {
-  color: var(--gold);
+  color: var(--white);
   outline: none;
 }
 
 .modal-event-title {
-  font-family: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  font-family: 'Instrument Serif', Georgia, 'Times New Roman', serif;
   font-size: 1.5rem;
   margin: 0 0 1.5rem;
-  color: #fff;
+  color: var(--white);
   padding-right: 2.5rem;
   line-height: 1.25;
+  font-weight: 400;
 }
 
 .modal-field {
   margin-bottom: 1.1rem;
   font-size: 1rem;
   line-height: 1.6;
-  color: var(--parchment);
+  color: var(--pale);
 }
 
 .modal-field strong {
   display: block;
   margin-bottom: 0.2rem;
-  color: var(--gold);
+  color: var(--white);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
@@ -401,7 +400,8 @@ body {
 }
 
 #modal-description a {
-  color: var(--gold-bright);
+  color: var(--pale);
+  text-decoration: underline;
 }
 
 .modal-close-btn-bottom {
@@ -409,13 +409,14 @@ body {
   width: 100%;
   margin-top: 1.75rem;
   padding: 0.8rem;
+  font-family: 'Instrument Sans', Arial, sans-serif;
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
   background: transparent;
-  color: var(--parchment);
-  border: 2px solid var(--border);
+  color: var(--pale);
+  border: 2px solid var(--pale);
   border-radius: 0;
   cursor: pointer;
   min-height: 48px;
@@ -424,9 +425,9 @@ body {
 
 .modal-close-btn-bottom:hover,
 .modal-close-btn-bottom:focus {
-  background: var(--gold-dark);
+  background: var(--light);
   color: var(--navy);
-  border-color: var(--gold-dark);
+  border-color: var(--pale);
   outline: none;
 }
 
@@ -448,7 +449,7 @@ body {
   }
 
   .site-header h1 {
-    font-size: 1.6rem;
+    font-size: 1.8rem;
   }
 
   .calendar-container {
@@ -492,7 +493,7 @@ body {
   }
 
   .site-header h1 {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
   }
 
   .site-header .subtitle {
