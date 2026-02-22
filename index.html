@@ -6,6 +6,11 @@
   <meta name="description" content="AASR District Central East, South and North — Chapter meeting dates and events calendar">
   <title>AASR District Central East, South &amp; North — Calendar</title>
 
+  <!-- Google Fonts — Classical serif for headings -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700;900&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css">
 
   <!-- FullCalendar v6 CSS -->
@@ -14,8 +19,13 @@
 <body>
 
   <header class="site-header">
-    <h1>AASR District Central East, South &amp; North</h1>
-    <p class="subtitle">Chapter Meeting Calendar</p>
+    <div class="header-inner">
+      <div class="header-emblem">&#9733;</div>
+      <h1>Ancient &amp; Accepted Scottish Rite</h1>
+      <p class="subtitle">District Central East, South &amp; North</p>
+      <div class="header-rule"></div>
+      <p class="subtitle-secondary">Chapter Meeting Calendar</p>
+    </div>
   </header>
 
   <main class="calendar-container">
@@ -23,7 +33,8 @@
   </main>
 
   <footer class="site-footer">
-    <p>Events sourced from the District Google Calendar. If you have questions, contact your Chapter Secretary.</p>
+    <div class="footer-rule"></div>
+    <p>Events sourced from the District Google Calendar.<br>If you have questions, contact your Chapter Secretary.</p>
   </footer>
 
   <!-- Event Detail Modal -->
@@ -32,15 +43,15 @@
       <button id="modal-close" class="modal-close-btn" aria-label="Close event details">&times;</button>
       <h2 id="modal-title" class="modal-event-title"></h2>
       <div class="modal-field" id="modal-date-row">
-        <strong>Date &amp; Time:</strong>
+        <strong>Date &amp; Time</strong>
         <span id="modal-date"></span>
       </div>
       <div class="modal-field" id="modal-location-row">
-        <strong>Location:</strong>
+        <strong>Location</strong>
         <span id="modal-location"></span>
       </div>
       <div class="modal-field" id="modal-description-row">
-        <strong>Details:</strong>
+        <strong>Details</strong>
         <div id="modal-description"></div>
       </div>
       <button id="modal-close-bottom" class="modal-close-btn-bottom">Close</button>
