@@ -2,7 +2,7 @@
 
 A simple, mobile-friendly website that displays the District's Google Calendar of chapter meeting dates. Designed for accessibility — large text, high contrast, and easy navigation so any member can view upcoming meetings from their phone or computer without needing a Google account.
 
-**Live site:** [kevinsing999.github.io/public-calendar](https://kevinsing999.github.io/public-calendar/)
+**Live site:** [calendar.aasrwa.org](https://calendar.aasrwa.org)
 
 ---
 
@@ -33,13 +33,13 @@ The calendar must be shared publicly with full event details visible (not just f
 ### 2. Google Calendar API Key
 
 The API key is already configured and stored as a GitHub repository secret (`GOOGLE_CALENDAR_API_KEY`). It is:
-- Restricted to the `kevinsing999.github.io` domain only
+- Restricted to `calendar.aasrwa.org` and `kevinsing999.github.io` domains only
 - Restricted to the Google Calendar API only
 - Injected into the deployed site automatically by the GitHub Actions workflow
 
 If the key ever needs to be rotated:
 1. Create a new API key in [Google Cloud Console](https://console.cloud.google.com/) → APIs & Services → Credentials
-2. Apply the same restrictions (HTTP referrers: `kevinsing999.github.io/*`, API: Google Calendar API only)
+2. Apply the same restrictions (HTTP referrers: `calendar.aasrwa.org/*` and `kevinsing999.github.io/*`, API: Google Calendar API only)
 3. Update the repository secret: Settings → Secrets and variables → Actions → `GOOGLE_CALENDAR_API_KEY`
 4. Push any commit to trigger a redeployment
 
@@ -58,17 +58,17 @@ No manual deployment steps are needed — just push to `main`.
 
 ---
 
-## Custom Domain (Optional)
+## Custom Domain
 
-To use a custom domain instead of `kevinsing999.github.io/public-calendar`:
+This site is served at **calendar.aasrwa.org** via a CNAME DNS record pointing to `kevinsing999.github.io`. The domain is managed in Namecheap under the `aasrwa.org` zone:
 
-1. Buy a domain from any registrar
-2. Add DNS records pointing to GitHub Pages:
-   - 4 `A` records for the root domain: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - 1 `CNAME` record for `www` pointing to `kevinsing999.github.io`
-3. Add a `CNAME` file to the repo containing your domain name
-4. Configure the domain in GitHub → Settings → Pages
-5. Update the API key restriction to include the new domain
+| Type | Host | Value |
+|------|------|-------|
+| CNAME | `calendar` | `kevinsing999.github.io` |
+
+HTTPS is enforced and the TLS certificate is provisioned automatically by GitHub Pages (Let's Encrypt, auto-renewed).
+
+See the [aasrwa.org](https://github.com/kevinsing999/aasrwa.org) repo for the root domain holding page and full DNS configuration.
 
 ---
 
