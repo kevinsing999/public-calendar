@@ -96,7 +96,7 @@
           pad(date.getUTCDate()) + 'T' +
           pad(date.getUTCHours()) +
           pad(date.getUTCMinutes()) +
-          pad(date.getUTCSeconds()) + 'Z';
+          pad(date.getUTCSeconds());
       }
 
       function toICSDateAllDay(date) {
@@ -123,9 +123,9 @@
             lines.push('DTEND;VALUE=DATE:' + toICSDateAllDay(event.end));
           }
         } else {
-          lines.push('DTSTART:' + toICSDate(event.start));
+          lines.push('DTSTART;TZID=Australia/Perth:' + toICSDate(event.start));
           if (event.end) {
-            lines.push('DTEND:' + toICSDate(event.end));
+            lines.push('DTEND;TZID=Australia/Perth:' + toICSDate(event.end));
           }
         }
 
